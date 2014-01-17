@@ -4,7 +4,7 @@ class Rc_notes_ft extends EE_Fieldtype {
 
     var $info = array(
         'name'      => 'Red Carrot Notes',
-        'version'   => '1.0'
+        'version'   => '1.1'
     );
 
     // --------------------------------------------------------------------
@@ -18,9 +18,25 @@ class Rc_notes_ft extends EE_Fieldtype {
 		return array(
 			'title'  => '',
 			'description' => '',
-			'colour'      => '#E11842'
+			'colour'      => '#E11842',
+			'padding'      => '25px'
 		);
 	}
+	
+	function display_global_settings()
+	{
+	    $val = array_merge($this->settings, $_POST);
+	
+	    $form = form_label('Box Padding', 'padding').NBS.form_input('padding', $val['padding']).NBS.NBS.NBS.' ';
+	
+	    return $form;
+	}
+	
+	function save_global_settings()
+	{
+	    return array_merge($this->settings, $_POST);
+	}
+	
 
 	function save_settings($data)
 	{
@@ -31,10 +47,8 @@ class Rc_notes_ft extends EE_Fieldtype {
 		);
 	}
 	
-	function save_global_settings()
-	{
-		return array_merge($this->settings, $_POST);
-	}
+	
+	
 	
 	function display_settings($data)
 	{
@@ -62,11 +76,11 @@ class Rc_notes_ft extends EE_Fieldtype {
 		
 	function display_field($data)
 	{
-		$data_points = array('title', 'description', 'colour');
+		$data_points = array('title', 'description', 'colour', 'padding');
 		
 		if ($data)
 		{
-			list($title, $description, $colour) = explode('|', $data);
+			list($title, $description, $colour, $padding) = explode('|', $data);
 		}
 		else
 		{
@@ -76,7 +90,7 @@ class Rc_notes_ft extends EE_Fieldtype {
 			}
 		}
 		
-		$prototype = '<div class="rc-note" style="background: '.$colour.'; color: #fff; padding: 25px; margin-top: 50px; border-bottom: #2d4a5d 2px solid;">';
+		$prototype = '<div class="rc-note" style="background: '.$colour.'; color: #fff; padding: '. $padding .'; margin-top: 50px; border-bottom: #2d4a5d 2px solid;">';
 		$prototype .= '<h3 style="color: #fff; margin: 0;">'. $title .'</h3>';
 		$prototype .= '<p style="color: #fff;">'.$description.'</p>';
 		$prototype .= '</div>';
